@@ -88,7 +88,7 @@ Public Module DiagnosticIdStrings
     Public Const NameOf_ExternalDiagnosticId As String = "VBF0108"
     Public Const StringFormatArgs_ExtraArgsDiagnosticId As String = "VBF0111"
     Public Const DeclarePublicApiRuleIdDiagnosticId As String = "VBF0116"
-    Public Const RemoveByValDiagnosticId As String = "VBF1100"
+    Public Const RemoveByValDiagnosticId As String = "VBF0999"
     Public Const ERR_EnumNotExpression1DiagnosticId As String = "BC30107"
     Public Const ERR_TypeNotExpression1DiagnosticId As String = "BC30108"
     Public Const ERR_ClassNotExpression1DiagnosticId As String = "BC30109"

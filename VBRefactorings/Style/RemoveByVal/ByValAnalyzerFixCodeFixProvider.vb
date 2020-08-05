@@ -25,7 +25,7 @@ Namespace Style
 
         Public NotOverridable Overrides ReadOnly Property FixableDiagnosticIds As ImmutableArray(Of String)
             Get
-                Return ImmutableArray.Create(ByValAnalyzerFixAnalyzer.DiagnosticId)
+                Return ImmutableArray.Create(RemoveByValDiagnosticId)
             End Get
         End Property
 
@@ -101,7 +101,7 @@ Namespace Style
             ' Register a code action that will invoke the fix.
             Dim CodeAction As CodeAction = CodeAction.Create(
                 Title,
-                createChangedDocument:=Function(c) RemoveByValOccuranceAsync(context.Document, paramList, c),
+                createChangedDocument:=Function(c) Me.RemoveByValOccuranceAsync(context.Document, paramList, c),
                 equivalenceKey:=Title)
             context.RegisterCodeFix(CodeAction, FirstDiagnostic)
         End Function

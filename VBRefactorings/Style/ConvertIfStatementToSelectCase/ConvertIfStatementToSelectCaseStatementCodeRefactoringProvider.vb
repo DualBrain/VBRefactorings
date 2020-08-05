@@ -1,19 +1,10 @@
-﻿' Licensed to the .NET Foundation under one or more agreements.
-' The .NET Foundation licenses this file to you under the MIT license.
-' See the LICENSE file in the project root for more information.
-
-Imports System.Threading
-Imports Microsoft.CodeAnalysis
-Imports Microsoft.CodeAnalysis.CodeRefactorings
+﻿
 Imports Microsoft.CodeAnalysis.Formatting
-Imports Microsoft.CodeAnalysis.Text
-Imports Microsoft.CodeAnalysis.VisualBasic
-Imports Microsoft.CodeAnalysis.VisualBasic.Syntax
 
 Namespace Style
 
     <ExportCodeRefactoringProvider(LanguageNames.VisualBasic, Name:="Convert 'If' to 'Select Case'")>
-    Public Class ConvertIfStatementToSelectCaseCodeRefactoringProvider
+    Public Class ConvertIfStatementToSelectCaseStatementCodeRefactoringProvider
         Inherits CodeRefactoringProvider
 
         Private Shared ReadOnly validTypes() As SpecialType = {SpecialType.System_String, SpecialType.System_Boolean, SpecialType.System_Char, SpecialType.System_Byte, SpecialType.System_SByte, SpecialType.System_Int16, SpecialType.System_Int32, SpecialType.System_Int64, SpecialType.System_UInt16, SpecialType.System_UInt32, SpecialType.System_UInt64}
@@ -133,13 +124,13 @@ Namespace Style
             If Not span.IsEmpty Then
                 Return
             End If
-            Dim CancelToken As CancellationToken = context.CancellationToken
-            If CancelToken.IsCancellationRequested Then
+            Dim cancellationToken As CancellationToken = context.CancellationToken
+            If cancellationToken.IsCancellationRequested Then
                 Return
             End If
-            Dim root As SyntaxNode = Await document.GetSyntaxRootAsync(CancelToken).ConfigureAwait(False)
-            Dim model As SemanticModel = Await document.GetSemanticModelAsync(CancelToken).ConfigureAwait(False)
-            If model.IsFromGeneratedCode(CancelToken) Then
+            Dim root As SyntaxNode = Await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(False)
+            Dim model As SemanticModel = Await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(False)
+            If model.IsFromGeneratedCode(cancellationToken) Then
                 Return
             End If
             Dim node As IfStatementSyntax = TryCast(root.FindNode(span), IfStatementSyntax)
@@ -160,17 +151,16 @@ Namespace Style
                 Return
             End If
 
-            context.RegisterRefactoring(
-                    New DocumentChangeAction(span,
-                                             DiagnosticSeverity.Info,
-                                             "To 'Select Case'",
-                                             Function(ct As CancellationToken)
-                                                 Dim selectCaseStatement As SelectBlockSyntax = SyntaxFactory.SelectBlock(SyntaxFactory.SelectStatement(selectCaseExpression).WithCaseKeyword(SyntaxFactory.Token(SyntaxKind.CaseKeyword)), (New SyntaxList(Of CaseBlockSyntax)()).AddRange(caseBlocks)).NormalizeWhitespace()
-                                                 Return Task.FromResult(document.WithSyntaxRoot(root.ReplaceNode(ifBlock, selectCaseStatement.WithLeadingTrivia(ifBlock.GetLeadingTrivia()).WithTrailingTrivia(ifBlock.GetTrailingTrivia()).WithAdditionalAnnotations(Formatter.Annotation))))
-                                             End Function)
-                                            )
+            context.RegisterRefactoring(New DocumentChangeAction(
+                                                                span,
+                                                                DiagnosticSeverity.Info,
+                                                                "To 'Select Case'",
+                                                                Function(ct As CancellationToken)
+                                                                    Dim selectCaseStatement As SelectBlockSyntax = SyntaxFactory.SelectBlock(SyntaxFactory.SelectStatement(selectCaseExpression).WithCaseKeyword(SyntaxFactory.Token(SyntaxKind.CaseKeyword)), (New SyntaxList(Of CaseBlockSyntax)()).AddRange(caseBlocks)).NormalizeWhitespace()
+                                                                    Return Task.FromResult(document.WithSyntaxRoot(root.ReplaceNode(ifBlock, selectCaseStatement.WithLeadingTrivia(ifBlock.GetLeadingTrivia()).WithTrailingTrivia(ifBlock.GetTrailingTrivia()).WithAdditionalAnnotations(Formatter.Annotation))))
+                                                                End Function)
+                                                                )
         End Function
-
     End Class
 
 End Namespace

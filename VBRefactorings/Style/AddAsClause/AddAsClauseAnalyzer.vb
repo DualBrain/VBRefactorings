@@ -132,7 +132,7 @@ Namespace Style
                             Exit Sub
                         End If
 
-                        If (Not node.MatchesKind(
+                        If Not node.MatchesKind(
                             SyntaxKind.AddExpression,
                             SyntaxKind.AndAlsoExpression,
                             SyntaxKind.AndExpression,
@@ -179,8 +179,7 @@ Namespace Style
                             SyntaxKind.TupleExpression,
                             SyntaxKind.TypeOfIsExpression,
                             SyntaxKind.UnaryMinusExpression
-                            )
-                    ) Then
+                            ) Then
                             Debug.Print($"Node.IsKind list is missing {node.Kind}")
                             Stop    ' Don't think this list is complete
                         End If

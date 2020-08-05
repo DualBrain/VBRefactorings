@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>VBRefactoringsTests</RootNamespace>
     <AssemblyName>VBRefactoringsTests</AssemblyName>
@@ -23,7 +23,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="My Project\Settings.Designer.vb" />
-    <Compile Remove="Tests\ConvertStringToXMLLiteralUnitTests.vb" />
     <Compile Remove="Tests\MoveStringToResource.UnitTests.vb" />
   </ItemGroup>
   <ItemGroup>

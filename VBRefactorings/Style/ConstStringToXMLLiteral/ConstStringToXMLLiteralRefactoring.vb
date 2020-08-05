@@ -2,10 +2,6 @@
 ' The .NET Foundation licenses this file to you under the MIT license.
 ' See the LICENSE file in the project root for more information.
 
-Option Explicit On
-Option Infer Off
-Option Strict On
-
 Imports System.Composition
 Imports System.Threading
 Imports Microsoft.CodeAnalysis
@@ -107,7 +103,7 @@ Namespace Style
                 Return
             End If
 
-            context.RegisterRefactoring(CodeAction.Create($"Convert Const String to XML Literal", Function(c As CancellationToken) ConvertToXMLLiteralAsync(document, localDeclaration, _VariableDeclarator, c)))
+            context.RegisterRefactoring(CodeAction.Create($"Convert Const String to XML Literal", Function(c As CancellationToken) Me.ConvertToXMLLiteralAsync(document, localDeclaration, _VariableDeclarator, c)))
             Exit Function
         End Function
 

@@ -19,7 +19,7 @@ Public Module CheckSyntax
         Dim Diagnostics As IEnumerable(Of Diagnostic) = tree.GetDiagnostics
         For i As Integer = 1 To Diagnostics.Count
             Dim DiagnosticItem As Diagnostic = Diagnostics(i)
-            strDetail &= (i).ToString() & ". Info: " & DiagnosticItem.ToString()
+            strDetail &= i.ToString() & ". Info: " & DiagnosticItem.ToString()
             strDetail &= " Warning Level: " & DiagnosticItem.WarningLevel.ToString()
             strDetail &= " Severity Level: " & DiagnosticItem.Severity.ToString() & vbCrLf
             strDetail &= " Location: " & DiagnosticItem.Location.Kind.ToString()
